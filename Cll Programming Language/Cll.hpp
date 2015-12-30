@@ -26,9 +26,12 @@ public:
 	void div();
 	void mul();
 	void exp();
+	void cpy();
+	void mov();
+	void swp();
 	void inc();
 	void dec();
-
+	void w_go();
 
 	~Cll();
 };

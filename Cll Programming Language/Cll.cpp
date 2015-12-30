@@ -33,14 +33,22 @@ void Cll::go()
 			sub();
 		if (command == "mul")
 			mul();
-		if (command == "div")
+		if (command == "div") 
 			div();
 		if (command == "exp")
 			exp();
+		if (command == "cpy")
+			cpy();
+		if (command == "mov")
+			mov();
+		if (command == "swp")
+			swp();
 		if (command == "inc")
 			inc();
 		if (command == "dec")
 			dec();
+		if (command == "while")
+			w_go();
 		if (command == "sizeof")
 			std::cout << sizeof(long long) * 8 << std::endl;
 		
@@ -257,6 +265,72 @@ void Cll::exp()
 	temp[1] = stoi(command);
 	cell[temp[0]] = pow(cell[temp[0]], cell[temp[1]]);
 }
+void Cll::cpy()
+{
+	cellfile >> command;
+	if (command[0] != '#')
+	{
+		std::cerr << "Error: " << command << " is not a cell. Expected a cell within 0 - " << CELLMAX << std::endl;
+		exit(-1);
+	}
+	command[0] = ' ';
+	temp[0] = stoi(command);
+	cellfile >> command;
+	if (command[0] != '#')
+	{
+		std::cerr << "Error: " << command << " is not a cell. Expected a cell within 0 - " << CELLMAX << std::endl;
+		exit(-1);
+	}
+	command[0] = ' ';
+	temp[1] = stoi(command);
+
+	cell[temp[0]] = cell[temp[1]];
+}
+void Cll::mov()
+{
+	cellfile >> command;
+	if (command[0] != '#')
+	{
+		std::cerr << "Error: " << command << " is not a cell. Expected a cell within 0 - " << CELLMAX << std::endl;
+		exit(-1);
+	}
+	command[0] = ' ';
+	temp[0] = stoi(command);
+	cellfile >> command;
+	if (command[0] != '#')
+	{
+		std::cerr << "Error: " << command << " is not a cell. Expected a cell within 0 - " << CELLMAX << std::endl;
+		exit(-1);
+	}
+	command[0] = ' ';
+	temp[1] = stoi(command);
+
+	cell[temp[0]] = cell[temp[1]];
+	cell[temp[1]] = 0x0000;
+}
+void Cll::swp()
+{
+	cellfile >> command;
+	if (command[0] != '#')
+	{
+		std::cerr << "Error: " << command << " is not a cell. Expected a cell within 0 - " << CELLMAX << std::endl;
+		exit(-1);
+	}
+	command[0] = ' ';
+	temp[0] = stoi(command);
+	cellfile >> command;
+	if (command[0] != '#')
+	{
+		std::cerr << "Error: " << command << " is not a cell. Expected a cell within 0 - " << CELLMAX << std::endl;
+		exit(-1);
+	}
+	command[0] = ' ';
+	temp[1] = stoi(command);
+	long long tempbuff = 0x0000;
+	tempbuff = cell[temp[0]];
+	cell[temp[0]] = cell[temp[1]];
+	cell[temp[1]] = tempbuff;
+}
 void Cll::inc()
 {
 	cellfile >> command;
@@ -280,6 +354,65 @@ void Cll::dec()
 	command[0] = ' ';
 	temp[0] = stoi(command);
 	cell[temp[0]]--;
+}
+void Cll::w_go()				
+{
+	int length = cellfile.tellg();
+	int buffer;
+	cellfile >> command;
+	if (command[0] != '#')
+	{
+		std::cerr << "Error: " << command << " is not a cell. Expected a cell within 0 - " << CELLMAX << std::endl;
+		exit(-1);
+	}
+
+	command[0] = ' ';
+	buffer = stoi(command);
+
+	while (cell[buffer] != 0)
+	{
+		cellfile >> command;
+		if (command == "print")
+			print();
+		if (command == "printc")
+			printc();
+		if (command == "prints")
+			prints();
+		if (command == "set")
+			set();
+		if (command == "setc")
+			setc();
+		if (command == "sets")
+			sets();
+		if (command == "add")
+			add();
+		if (command == "sub")
+			sub();
+		if (command == "mul")
+			mul();
+		if (command == "div")
+			div();
+		if (command == "exp")
+			exp();
+		if (command == "cpy")
+			cpy();
+		if (command == "mov")
+			mov();
+		if (command == "swp")
+			swp();
+		if (command == "inc")
+			inc();
+		if (command == "dec")
+			dec();
+		if (command == "while")
+			w_go();
+		if (command == "sizeof")
+			std::cout << sizeof(long long) * 8 << std::endl;
+		if (command == "end")
+		{
+			cellfile.seekg(length);
+		}
+	}
 }
 Cll::~Cll()
 {
