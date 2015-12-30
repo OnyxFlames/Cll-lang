@@ -17,8 +17,10 @@ public:
 	void go();					// This functions "drives" the language, using it to go through the language until it reaches an "exit"
 	void print();
 	void printc();
+	void prints();
 	void set();
 	void setc();
+	void sets();
 	void add();
 	void sub();
 	void div();

@@ -19,10 +19,14 @@ void Cll::go()
 			print();
 		if (command == "printc")
 			printc();
+		if (command == "prints")
+			prints();
 		if (command == "set")
 			set();
 		if (command == "setc")
 			setc();
+		if (command == "sets")
+			sets();
 		if (command == "add")
 			add();
 		if (command == "sub")
@@ -44,7 +48,7 @@ void Cll::go()
 		
 		if (cellfile.eof() && command != "exit")
 		{
-			std::cerr << "Cll: Reached end of file without \"exit\"! Undefined behavior." << std::endl;
+			std::cerr << "\nCll: Reached end of file without \"exit\"! Undefined behavior." << std::endl;
 			exit(-2);
 		}
 	}
@@ -73,6 +77,40 @@ void Cll::printc()
 	temp[0] = stoi(command);
 	std::cout << (char)cell[temp[0]] << std::endl;
 }
+void Cll::prints()
+{
+	cellfile >> command;
+	if (command[0] != '#')
+	{
+		std::cerr << "Error: " << command << " is not a cell. Expected a cell within 0 - " << CELLMAX << std::endl;
+		exit(-4);
+	}
+	command[0] = ' ';
+	temp[0] = stoi(command);
+	cellfile >> command;
+	if (command[0] != '#')
+	{
+		std::cerr << "Error: " << command << " is not a cell. Expected a cell within 0 - " << CELLMAX << std::endl;
+		exit(-4);
+	}
+	command[0] = ' ';
+	temp[1] = stoi(command);
+	
+	if (temp[0] < temp[1])
+	{
+		while (temp[0] <= temp[1])
+		{
+			std::cout << (char)cell[temp[0]++];
+		}
+	}
+	else if (temp[0] > temp[1])
+	{
+		while (temp[0] >= temp[1])
+		{
+			std::cout << (char)cell[temp[0]--];
+		}
+	}
+}
 void Cll::set()
 {
 	cellfile >> command;
@@ -100,6 +138,24 @@ void Cll::setc()
 	cellfile >> command;
 	temp[1] = command[0];
 	cell[temp[0]] = temp[1];
+}
+void Cll::sets()
+{
+	cellfile >> command;
+	if (command[0] != '#')
+	{
+		std::cerr << "Error: " << command << " is not a cell. Expected a cell within 0 - " << CELLMAX << std::endl;
+		exit(-4);
+	}
+	command[0] = ' ';
+	temp[0] = stoi(command);
+	std::getline(cellfile, command);
+	command.erase(command.begin());
+	for (char c : command)
+	{ 
+		cell[temp[0]] = c;
+		temp[0] = temp[0] + 1;
+	}
 }
 void Cll::add()
 {
