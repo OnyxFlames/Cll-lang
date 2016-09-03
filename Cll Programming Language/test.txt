@@ -1,0 +1,20 @@
+sets 	#100 They are the same
+sets	#150 They are different
+
+set 	#1 	10000
+set	#2	10000
+cmp 	#1	#2
+print	#1
+while 	#1
+	prints	#100	#149
+	set 	#1 	0
+end
+
+set	#3	0
+cmp 	#1	#3
+
+while	#1
+	prints 	#150	#199
+	set 	#1	0
+end
+exit

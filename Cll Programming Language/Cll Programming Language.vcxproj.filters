@@ -21,6 +21,9 @@
     <ClCompile Include="Cll.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CllEnum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Commands.txt">
@@ -29,6 +32,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cll.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="error_definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CllEnum.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
