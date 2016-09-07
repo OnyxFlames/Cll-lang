@@ -8,6 +8,7 @@ sets - sets the current cell, and all of the following cells to the numerical eq
 
 mov - moves the contents of the first cell to the contents of the second cell, and the other way around
 cpy - copys the contents of the first cell to the contents of the second cell
+len - gets the lens of the character array starting in the second cell, and sets the first cell to that value
 
 add - adds the two cells, the result goes into the first cell passed.
 sub - subtracts the 2nd cell from the first cell, puts the result in the first cell passed.
@@ -24,7 +25,7 @@ cmpg - checks to see if the first cell is greater than the second, if true it se
 
 read  - reads a number from the standard input and sets it to the cell passed.
 readc - reads a character from the standard input and sets it to the cell passed.
-reads - reads a string of characters into the cell passed and all those following up until the second cell passed(wont write further)
+reads - reads a string of characters into the cell passed and all those following up until the second value(the limit, wont write further)
 
 if - if the cell passed is non-zero, it executes the code up and until the else or end statement below.
 while - if the cell passed is non-zero, it executes the code below to the following end statement until the cell passed becomes 0

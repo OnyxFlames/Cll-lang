@@ -30,5 +30,6 @@ enum functions : char
 	IF,
 	WHILE,
 	SIZEOF,
+	EXIT,
 };
 char str_to_enum(const std::string &cmd);
