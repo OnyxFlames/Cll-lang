@@ -50,6 +50,8 @@ char str_to_enum(const std::string &cmd)
 		return W_GO;
 	else if (cmd == "sizeof")
 		return SIZEOF;
+	else if (cmd == "end")
+		return END;
 	else if (cmd == "exit")
 		return EXIT;
 	else return 127;

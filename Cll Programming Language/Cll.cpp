@@ -261,109 +261,16 @@ void Cll::w_go()
 		std::cerr << "Max loop states reached! Max: " << MAX_LOOP_STATES << "Current: " << curr_state << std::endl;
 		exit(MAX_LOOP_STATE);
 	}
-	state_pointer[++curr_state] = /*(long long)*/cellfile.tellg();
 	int buffer;
 	cellfile >> command;
 	buffer = get_num_val(command);
-
+	state_pointer[++curr_state] = (int)cellfile.tellg();
 	while (cell[buffer] != 0)
 	{
 		cellfile >> command;
-		if (command == "end")
-		{
-			if (state_pointer[curr_state] == -1)
-			{
-				std::cerr << "Unexpected \"end\" reached!" << std::endl;
-				exit(-4);
-			}
-			cellfile.seekg(state_pointer[--curr_state]);
-		}
-		else
-		{
-			OP = str_to_enum(command);
-			switch (OP)
-			{
-			case PRINT:
-				print();
-				break;
-			case PRINTC:
-				printc();
-				break;
-			case PRINTS:
-				prints();
-				break;
-			case PRINTP:
-				printp();
-				break;
-			case READ:
-				read();
-				break;
-			case READC:
-				readc();
-				break;
-			case READS:
-				reads();
-				break;
-			case SET:
-				set();
-				break;
-			case SETC:
-				setc();
-				break;
-			case SETS:
-				sets();
-				break;
-			case ADD:
-				add();
-				break;
-			case SUB:
-				sub();
-				break;
-			case MUL:
-				mul();
-				break;
-			case DIV:
-				div();
-				break;
-			case EXP:
-				exp();
-				break;
-			case CPY:
-				cpy();
-				break;
-			case MOV:
-				mov();
-				break;
-			case SWP:
-				swp();
-				break;
-			case LEN:
-				len();
-				break;
-			case INC:
-				inc();
-				break;
-			case DEC:
-				dec();
-				break;
-			case I_GO:
-				i_go();
-				break;
-			case W_GO:
-				w_go();
-				break;
-			case SIZEOF:
-				std::cout << sizeof(long long) * 8 << std::endl;
-				break;
-			case EXIT:
-				command = "exit";
-				break;
-			default:
-				std::cerr << "CLL: Unknown command:\t" << command << "\n";
-				std::exit(-5);
-				break;
-			}
-		}
+		OP = str_to_enum(command);
+
+		callfunc(OP);
 	}
 }
 void Cll::i_go()
@@ -373,30 +280,22 @@ void Cll::i_go()
 		std::cerr << "Max loop states reached! Max: " << MAX_LOOP_STATES << "Current: " << curr_state << std::endl;
 		exit(MAX_LOOP_STATE);
 	}
-	state_pointer[++curr_state] = (int)cellfile.tellg();
 	int buffer;
 	cellfile >> command;
 	buffer = get_num_val(command);
-
-	while (cell[buffer] != 0)
+	state_pointer[++curr_state] = (int)cellfile.tellg();
+	if (cell[buffer] != 0)
 	{
 		cellfile >> command;
-
 		OP = str_to_enum(command);
 
 		callfunc(OP);
-
-		// TODO: add opcode to pop off a loop/if statement from the stack.
-		if (command == "end")
-		{
-			if (state_pointer[curr_state] == -1)
-			{
-				std::cerr << "Unexpected \"end\" reached!" << std::endl;
-				exit(-4);
-			}
-			cellfile.seekg(state_pointer[++curr_state]);
-		}
 	}
+}
+
+void Cll::ret()
+{
+	cellfile.seekg(state_pointer[--curr_state]);
 }
 
 void Cll::callfunc(char &opcode)
@@ -474,6 +373,9 @@ void Cll::callfunc(char &opcode)
 		break;
 	case SIZEOF:
 		std::cout << sizeof(long long) * 8 << std::endl;
+		break;
+	case END:
+		ret();
 		break;
 	case EXIT:
 		std::exit(1);

@@ -18,7 +18,7 @@ private:
 	std::string command;		// The string that holds the current command, also takes cells and casts them as ints.(removing the #)
 	std::ifstream cellfile;		// The file that the code is being read from.
 	long long cell[CELLMAX];	// The cells that the user manipulates through the language.
-	int temp[8];				// Temp variables for casting cell numbers into.
+	int temp[4];				// Temp variables for casting cell numbers into.
 public:
 	Cll(const std::string &file);
 	int get_num_val(std::string &command)
@@ -59,6 +59,7 @@ public:
 	void dec();
 	void w_go();
 	void i_go();
+	void ret();
 
 	~Cll();
 };
